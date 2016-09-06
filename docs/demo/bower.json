@@ -1,0 +1,9 @@
+{
+  "name": "tmp-bower-config",
+  "version": "1.0.0",
+  "dependencies": {
+    "corespring-pie-chart-demo-react": "/Users/mikl/Project/CoreSpring/pie/corespring-pie-pie-chart-demo-react",
+    "control-panel": "git@github.com:PieLabs/control-panel.git",
+    "pie-env-editor": "git@github.com:PieLabs/pie-env-editor.git"
+  }
+}

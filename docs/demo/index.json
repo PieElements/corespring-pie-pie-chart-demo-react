@@ -1,0 +1,32 @@
+{
+  "components": [
+    {
+      "id": "1",
+      "component": {
+        "name": "corespring-pie-chart-demo-react",
+        "version": "1.0.0"
+      },
+      "correctResponse": [
+        50,
+        50
+      ],
+      "model": {
+        "prompt": "Hello Pie Chart",
+        "maxValue": 50,
+        "disabled": false,
+        "sections": [
+          {
+            "label": "Section A",
+            "color": "#f00",
+            "initialValue": 3
+          },
+          {
+            "label": "Section B",
+            "color": "#0f0",
+            "initialValue": 2
+          }
+        ]
+      }
+    }
+  ]
+}

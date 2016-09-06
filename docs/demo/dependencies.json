@@ -1,0 +1,6 @@
+{
+  "dependencies" : {
+    "corespring-pie-chart-demo-react" : "../.."
+  },
+  "resolutions" : {}
+}

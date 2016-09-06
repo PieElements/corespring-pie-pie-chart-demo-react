@@ -1,0 +1,24 @@
+{
+  "name": "corespring-pie-chart-demo-react",
+  "version" : "1.0.0",
+  "main" : [
+    "dist/bundle.js"
+  ],
+  "dependencies": {
+    "react" : "~15.0.1",
+    "pie-react-support" : "git@github.com:PieLabs/pie-react-support.git",
+    "lodash"  : "~4.11.2"
+  },
+  "overrides" : {
+    "react" : {
+      "main": {
+        "swap" : {
+          "react.js" : "react-with-addons.js"
+        },
+        "add" : [
+          "react-dom.js"
+        ]
+      }
+    }
+  }
+}
