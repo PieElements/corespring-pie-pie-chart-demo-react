@@ -2,6 +2,9 @@
   "name": "corespring-pie-pie-chart-demo-react",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "start": "webpack-dev-server --progress --inline"
+  },
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",
     "babel": "^6.5.2",
@@ -10,6 +13,7 @@
     "babel-loader": "^6.2.5",
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-react": "^6.11.1",
+    "babel-preset-react-hmre": "^1.1.1",
     "css-loader": "^0.25.0",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",

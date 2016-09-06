@@ -10,9 +10,6 @@ import CorespringPieChartDemoReact from './corespring-pie-chart-demo-react.jsx'
 class App extends React.Component {
   render() {
     return <div>
-      <pre>
-        {JSON.stringify(this.props.session, null, 2)}
-      </pre>
       <MuiThemeProvider>
         <CorespringPieChartDemoReact
           model={this.props.model}
@@ -26,7 +23,7 @@ class App extends React.Component {
 
 
 var model = {
-  prompt: "Hello Pie Chart",
+  prompt: "Hello Pie Chart ",
   maxValue: 50,
   disabled: false,
   sections: [
@@ -48,10 +45,10 @@ var model = {
 };
 
 var session = {
-  // value: [
-  //   15,
-  //   44
-  // ]
+  value: [
+    15,
+    44
+  ]
 };
 
 

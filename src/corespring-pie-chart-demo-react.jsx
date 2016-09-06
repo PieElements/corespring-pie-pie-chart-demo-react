@@ -64,6 +64,8 @@ class CorespringPieChartDemoReact extends React.Component {
   sliderHandler(i, ev, value) {
     var newData = this.state.chartData;
     newData[i].value = value;
+    this.props.session.value = this.props.session.value || [];
+    this.props.session.value[i] = value;
     this.setState({chartData: newData, chartSeries: this.state.chartSeries});
   }
 
@@ -116,6 +118,7 @@ class CorespringPieChartDemoReact extends React.Component {
 
     return (
       <div className="corespring-chart-demo-react">
+
         <div className="prompt">{this.props.model.prompt}</div>
         {showCorrectAnswerToggle}
         {slidersTable}
@@ -137,6 +140,12 @@ class CorespringPieChartDemoReact extends React.Component {
 CorespringPieChartDemoReact.propTypes = {
   model: React.PropTypes.object,
   session: React.PropTypes.object
+};
+
+CorespringPieChartDemoReact.defaultProps = {
+  session: {
+    value: []
+  }
 };
 
 export default CorespringPieChartDemoReact;
