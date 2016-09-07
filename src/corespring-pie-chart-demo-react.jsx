@@ -47,15 +47,15 @@ class CorespringPieChartDemoReact extends React.Component {
   }
 
   _mapCorrectResponseData() {
-    return _.map(this.props.model.correctResponse, function(s, idx) {
+    return this.props.model.correctResponse ? _.map(this.props.model.correctResponse, function(s, idx) {
       return {
         id: idx,
         value: s
       };
-    });
+    }) : (this.state && this.state.correctResponseData);
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentWillUpdate(prevProps, prevState) {
     this.state.componentState = this.props.model.disabled ? 'disabled' : 'enabled';
     this.state.correctResponseData = this._mapCorrectResponseData();
   }
@@ -69,7 +69,7 @@ class CorespringPieChartDemoReact extends React.Component {
   }
 
   getChartData() {
-    return this.state.showingCorrectResponse ? this.state.correctResponseData : this.state.chartData;
+    return (this.state.correctResponseData && this.state.showingCorrectResponse) ? this.state.correctResponseData : this.state.chartData;
   }
 
   showCorrectAnswer() {
