@@ -4,20 +4,22 @@ var path = require('path');
 var BUILD_DIR = path.resolve(__dirname, 'dist');
 var APP_DIR = path.resolve(__dirname, 'src');
 
+var isProd = (process.env.NODE_ENV === 'production');
+
 var config = {
-  entry: APP_DIR + '/index.jsx',
+  entry: APP_DIR + (isProd ? '/index.jsx' : '/demo.jsx'),
   output: {
     path: BUILD_DIR,
     filename: 'bundle.js',
     publicPath: "/static/"
   },
-  externals: {
+  externals: isProd ? {
     'react': 'React',
     'react-dom': 'ReactDOM',
     'react-dom/server': 'ReactDOMServer',
     'react/lib/ReactTransitionGroup': 'React.addons.TransitionGroup',
     'react/lib/ReactCSSTransitionGroup': 'React.addons.CSSTransitionGroup'
-  },
+  } : {},
   module : {
     loaders : [
       {
@@ -26,7 +28,7 @@ var config = {
         loader: "babel",
         include: APP_DIR,
         query: {
-          presets: [ 'es2015', 'react']
+          presets: isProd ? [ 'es2015', 'react'] : [ 'es2015', 'react', 'react-hmre' ]
         }
       },
       {

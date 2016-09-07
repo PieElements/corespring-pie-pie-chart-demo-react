@@ -6,30 +6,35 @@ exports.model = function(question, session, env) {
   console.debug('[state] session:', JSON.stringify(session, null, '  '));
   console.debug('[state] env:', JSON.stringify(env, null, '  '));
 
-  var cfg = _.assign({}, question.model);
   var lookup = _.identity;
-  
-  cfg.prompt = lookup(cfg.prompt);
-  cfg.choices = _.map(cfg.choices, function (c) {
-    c.label = lookup(c.label)
-    return c;
-  });
 
-  var base = _.assign({}, question.model); 
+  var base = _.assign({}, question.model);
+  base.prompt = lookup(base.prompt);
   base.outcomes = [];
 
-  base.config = cfg;
-
   if (env.mode !== 'gather') {
-    base.config.disabled = true;
+    base.disabled = true;
   }
 
   if (env.mode === 'evaluate') {
 
-    // if (!allCorrect) {
-    //   base.config.correctResponse = question.correctResponse;
-    // }
-    // base.outcomes = createOutcomes(allCorrect);
+    var numCorrect = 0;
+    base.outcomes = [];
+    _.each(question.model.sections, function(s, idx) {
+      var value = (session.value && session.value[idx]) || s.initialValue;
+      if (value === question.correctResponse[idx]) {
+        numCorrect++;
+        base.outcomes.push(true);
+      } else {
+        base.outcomes.push(false);
+      }
+
+    });
+    var allCorrect = numCorrect === question.model.sections.length;
+    if (!allCorrect) {
+      base.correctResponse = question.correctResponse;
+    }
+
   }
 
 

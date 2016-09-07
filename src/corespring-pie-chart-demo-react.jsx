@@ -2,7 +2,6 @@ import React from 'react';
 import Slider from 'material-ui/Slider';
 import _ from 'lodash';
 
-
 var PieChart = require('react-d3-basic').PieChart;
 
 var width = 700,
@@ -18,10 +17,6 @@ class CorespringPieChartDemoReact extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log("state init");
-    console.log(this.props.model);
-    console.log(this.props.correctResponse);
-    console.log('sess',this.props.session);
     this.state = {
       componentState: this.props.model.disabled ? 'disabled' : 'enabled',
       showingCorrectResponse: false,
@@ -38,12 +33,7 @@ class CorespringPieChartDemoReact extends React.Component {
           value: s.initialValue
         };
       }),
-      correctResponseData: _.map(this.props.model.correctResponse, function(s, idx) {
-        return {
-          id: idx,
-          value: s
-        };
-      })
+      correctResponseData: this._mapCorrectResponseData()
     };
 
     if (!_.isEmpty(this.props.session) && !_.isEmpty(this.props.session.value)) {
@@ -54,11 +44,20 @@ class CorespringPieChartDemoReact extends React.Component {
         };
       });
     }
+  }
 
-    if (!_.isEmpty(this.props.model.outcomes)) {
-    }
+  _mapCorrectResponseData() {
+    return _.map(this.props.model.correctResponse, function(s, idx) {
+      return {
+        id: idx,
+        value: s
+      };
+    });
+  }
 
-    console.log("session", this.props.session);
+  componentDidUpdate(prevProps, prevState) {
+    this.state.componentState = this.props.model.disabled ? 'disabled' : 'enabled';
+    this.state.correctResponseData = this._mapCorrectResponseData();
   }
 
   sliderHandler(i, ev, value) {
@@ -81,32 +80,46 @@ class CorespringPieChartDemoReact extends React.Component {
   render() {
 
     let slidersTable = "";
-    let showCorrectAnswerToggle = [];
+    let showCorrectAnswerToggle = "";
+    let correctnessLegend = {__html: ""};
+    let self = this;
+    let componentState = this.state.showingCorrectResponse ? '' : this.state.componentState;
 
     if (!_.isEmpty(this.props.model.correctResponse)) {
       var label = this.state.showingCorrectResponse ? 'Show My Answer' : 'Show Correct Answer';
-      showCorrectAnswerToggle.push(
-        <div key="0" className="showCorrectToggle" onClick={this.showCorrectAnswer.bind(this)}>
+      showCorrectAnswerToggle =
+        <div className="showCorrectToggle" onClick={this.showCorrectAnswer.bind(this)}>
           {label}
-        </div>
-      );
+        </div>;
+    }
+
+    if (!_.isEmpty(this.props.model.outcomes) && !this.state.showingCorrectResponse) {
+      correctnessLegend = {
+        __html: _.map(this.props.model.outcomes, function(o, idx) {
+          var section = self.props.model.sections[idx];
+          var correctness = o ? 'correct' : 'incorrect';
+          return "<span class='legend-box " + correctness + "'></span><span class='legend-entry'>" + section.label + "</span>";
+        }).join('')
+      };
+
     }
 
     if (this.state.componentState !== 'disabled') {
       var sliders = [];
       for (var i = 0; i < this.props.model.sections.length; i++) {
         sliders.push(
-          <tr>
+          <tr key={i}>
             <td>
               {this.state.chartSeries[i].name}
             </td>
-            <td width={"80%"}>
-              <Slider key={i}
-                      value={this.state.chartData[i].value}
+            <td width={300}>
+              <Slider value={this.state.chartData[i].value}
                       max={this.props.model.maxValue}
-
                       onChange={this.sliderHandler.bind(this, i)}
               />
+            </td>
+            <td>
+              {this.state.chartData[i].value}
             </td>
           </tr>
         );
@@ -122,7 +135,8 @@ class CorespringPieChartDemoReact extends React.Component {
         <div className="prompt">{this.props.model.prompt}</div>
         {showCorrectAnswerToggle}
         {slidersTable}
-        <div className={this.state.componentState}>
+        <div className="correctness-legend" dangerouslySetInnerHTML={correctnessLegend}></div>
+        <div className={componentState}>
           <PieChart
             data={this.getChartData()}
             width={width}

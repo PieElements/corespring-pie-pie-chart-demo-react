@@ -17,10 +17,38 @@
     }
   }
 
+  .correctness-legend {
+    display: table;
+
+    .legend-box {
+      display: table-cell;
+      width: 32px;
+      height: 32px;
+
+      &.correct {
+        background: green;
+      }
+
+      &.incorrect {
+        background: orange;
+      }
+    }
+
+    .legend-entry {
+      display: table-cell;
+      vertical-align: middle;
+      padding-left: 10px;
+      padding-right: 30px;
+    }
+  }
+  .disabled .legend {
+    display: none;
+  }
+
   .disabled .legend + svg
   {
-    -webkit-filter: grayscale(90%);
-    filter: grayscale(90%);
+    -webkit-filter: grayscale(70%);
+    filter: grayscale(70%);
   }
 
 }
